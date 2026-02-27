@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --color-primary: #72A2B8;
+  --color-primary-dark: #5A8A9F;
+  --color-bg-light: #F8F9FA;
+  --color-text-dark: #1A1A1A;
+  --color-text-muted: #6B7280;
+}
+
+body {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom utility for sharp corners to enforce the UI kit style */
+.sharp-edges {
+  border-radius: 0 !important;
+}
