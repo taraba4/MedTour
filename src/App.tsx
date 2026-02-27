@@ -50,7 +50,7 @@ function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2 text-blue-700 font-semibold text-lg">
           <HeartHandshake className="w-6 h-6" />
-          <span>МедОрганизатор</span>
+          <span>MedTour</span>
         </div>
         <div className="flex items-center gap-4">
           <a href="#contact" className="hidden sm:flex items-center gap-2 text-slate-600 hover:text-blue-700 transition-colors">
@@ -634,7 +634,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-6">
         <div className="flex items-center gap-2 text-white font-semibold text-lg">
           <HeartHandshake className="w-6 h-6" />
-          <span>МедОрганизатор</span>
+          <span>MedTour</span>
         </div>
         <div className="text-sm">
           <p>Мы не лечим. Мы организуем маршрут пациента и координируем процесс.</p>
