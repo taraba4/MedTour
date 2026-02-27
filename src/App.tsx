@@ -17,7 +17,9 @@ import {
   ClipboardList,
   Clock,
   BriefcaseMedical,
-  Plane
+  Plane,
+  Menu,
+  X
 } from 'lucide-react';
 
 export default function App() {
@@ -45,24 +47,95 @@ export default function App() {
 }
 
 function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navLinks = [
+    { name: 'О нас', href: '#who-we-help' },
+    { name: 'Услуги', href: '#what-you-get' },
+    { name: 'Клиники', href: '#clinics' },
+    { name: 'Врачи', href: '#doctors' },
+    { name: 'Стоимость', href: '#cost' },
+    { name: 'FAQ', href: '#faq' },
+  ];
+
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    setIsMenuOpen(false);
+  };
+
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-blue-700 font-semibold text-lg">
-          <HeartHandshake className="w-6 h-6" />
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div className="flex items-center gap-2 text-blue-700 font-bold text-xl">
+          <HeartHandshake className="w-7 h-7" />
           <span>MedTour</span>
         </div>
-        <div className="flex items-center gap-4">
-          <a href="#contact" className="hidden sm:flex items-center gap-2 text-slate-600 hover:text-blue-700 transition-colors">
+        
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <a 
+              key={link.name} 
+              href={link.href}
+              onClick={(e) => scrollToSection(e, link.href)}
+              className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-3 sm:gap-4">
+          <a href="#contact" className="hidden lg:flex items-center gap-2 text-slate-600 hover:text-blue-700 transition-colors">
             <Phone className="w-4 h-4" />
-            <span className="text-sm font-medium">+7 (XXX) XXX-XX-XX</span>
+            <span className="text-sm font-bold">+7 (XXX) XXX-XX-XX</span>
           </a>
-          <a href="#whatsapp" className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-2 shadow-sm">
+          <a href="#whatsapp" className="bg-green-500 hover:bg-green-600 text-white px-4 py-2.5 rounded-full text-sm font-bold transition-colors flex items-center gap-2 shadow-sm">
             <MessageCircle className="w-4 h-4" />
             <span className="hidden sm:inline">WhatsApp</span>
           </a>
+          
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden p-2 text-slate-600 hover:text-blue-600 transition-colors"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <div className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-slate-200 shadow-lg py-4 px-4 flex flex-col gap-4">
+          {navLinks.map((link) => (
+            <a 
+              key={link.name} 
+              href={link.href}
+              onClick={(e) => scrollToSection(e, link.href)}
+              className="text-base font-semibold text-slate-700 hover:text-blue-600 py-2 border-b border-slate-100 last:border-0"
+            >
+              {link.name}
+            </a>
+          ))}
+          <a href="#contact" className="flex items-center gap-2 text-slate-700 hover:text-blue-700 py-2 font-bold">
+            <Phone className="w-5 h-5" />
+            <span>+7 (XXX) XXX-XX-XX</span>
+          </a>
+        </div>
+      )}
     </header>
   );
 }
@@ -130,7 +203,7 @@ function WhoWeHelp() {
   ];
 
   return (
-    <section className="py-20 bg-slate-50">
+    <section id="who-we-help" className="py-20 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">В каких случаях мы можем быть полезны</h2>
         <div className="grid md:grid-cols-3 gap-8">
@@ -159,7 +232,7 @@ function WhatYouGet() {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section id="what-you-get" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           <div className="md:w-1/2">
@@ -253,7 +326,7 @@ function Clinics() {
   ];
 
   return (
-    <section className="py-20 bg-slate-50">
+    <section id="clinics" className="py-20 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Клиники, с которыми мы сотрудничаем</h2>
         <div className="grid md:grid-cols-2 gap-8">
@@ -320,7 +393,7 @@ function Doctors() {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section id="doctors" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Профильные специалисты</h2>
         <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -430,7 +503,7 @@ function Organization() {
 
 function Cost() {
   return (
-    <section className="py-20 bg-white border-y border-slate-100">
+    <section id="cost" className="py-20 bg-white border-y border-slate-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center text-slate-900 mb-8">Из чего формируется стоимость лечения</h2>
         <p className="text-center text-slate-600 text-lg mb-12">
@@ -526,7 +599,7 @@ function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-20 bg-slate-50">
+    <section id="faq" className="py-20 bg-slate-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Частые вопросы</h2>
         <div className="space-y-4">
